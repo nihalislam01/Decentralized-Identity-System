@@ -1,7 +1,6 @@
-const { ethers } = require("ethers");
+const { ethers, keccak256, toUtf8Bytes } = require('ethers');
 const { createVerifiableCredentialJwt } = require("did-jwt-vc");
 const { EthrDID } = require("ethr-did");
-const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 const express = require('express');
@@ -40,7 +39,7 @@ router.post("/issue-vc", async (req, res) => {
       };
   
       const jwt = await createVerifiableCredentialJwt(credentialPayload, issuer);
-      const vcHash = crypto.createHash("sha256").update(jwt).digest("hex");
+      const vcHash = keccak256(toUtf8Bytes(jwt));
   
       const tx = await contract.issueVC(nidNumber, vcHash);
       await tx.wait();
