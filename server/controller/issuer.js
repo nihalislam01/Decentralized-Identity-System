@@ -54,7 +54,7 @@ router.post("/issue-vc", async (req, res) => {
   
     } catch (err) {
       console.error("Error issuing VC:", err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ success: false, error: "Internal server error" });
     }
 });
 
